@@ -8,11 +8,18 @@ import (
 	log "github.com/Sirupsen/logrus"
 )
 
-// Promotions list
-var Promotions = []models.Promotion{
-	models.Promotion{
-		Name:            "tek1",
-		AcademicProgram: "master",
+const tek1 = "tek1"
+const tek2 = "tek2"
+const tek3 = "tek3"
+const tek4 = "tek4"
+const tek5 = "tek5"
+
+// Cities list
+var Cities = []models.City{
+	models.City{
+		Name:       "Strasbourg",
+		ID:         "STG",
+		Promotions: []string{tek1, tek2, tek3},
 	},
 }
 

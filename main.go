@@ -28,9 +28,12 @@ func main() {
 
 	// If getting data in  authentication file failed, quit.
 	if err != nil {
-		return
+		os.Exit(-1)
 	}
 
-	requests.Authentication(auth)
-
+	// Authenticate current user
+	if err := requests.Authentication(auth); err != nil {
+		os.Exit(-1)
+	}
+	requests.RequestAllData(auth.Token)
 }
