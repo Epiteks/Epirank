@@ -26,10 +26,10 @@ func init() {
 func main() {
 
 	// Create authentication object based on auth file
-	var auth, err = config.LoadAuthenticationData()
+	var auth = config.AuthenticationDataFromEnvironment()
 
-	// If getting data in  authentication file failed, quit.
-	if err != nil {
+	// If getting data in env failed, quit.
+	if auth == nil {
 		os.Exit(-1)
 	}
 

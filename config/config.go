@@ -9,7 +9,7 @@ import (
 )
 
 // DatabasePath is database path...
-const DatabasePath = "./students.db"
+const DatabasePath = "/tmp/students.db"
 
 const tek1 = "tek1"
 const tek2 = "tek2"
@@ -69,11 +69,10 @@ var Cities = []models.City{
 		ID:         "REN",
 		Promotions: []string{tek1, tek2, tek3},
 	},
-
 	{
 		Name:       "Strasbourg",
 		ID:         "STG",
-		Promotions: []string{tek1, tek2, tek3},
+		Promotions: []string{tek3},
 	},
 	{
 		Name:       "Toulouse",
@@ -96,7 +95,7 @@ func LoadAuthenticationData() (*Authentication, error) {
 	if err != nil {
 		log.WithFields(log.Fields{
 			"error": err,
-		}).Fatal("Error opening authentication file")
+		}).Error("Error opening authentication file")
 		return nil, err
 	}
 
@@ -108,9 +107,24 @@ func LoadAuthenticationData() (*Authentication, error) {
 	if err = jsonParser.Decode(&authentication); err != nil {
 		log.WithFields(log.Fields{
 			"error": err,
-		}).Fatal("Error parsing authentication file")
+		}).Error("Error parsing authentication file")
 		return nil, err
 	}
 
 	return &authentication, nil
+}
+
+// AuthenticationDataFromEnvironment get data from Env
+func AuthenticationDataFromEnvironment() *Authentication {
+
+	var authentication Authentication
+
+	authentication.Login = os.Getenv("EPIRANK_LOGIN")
+	authentication.Password = os.Getenv("EPIRANK_PASSWORD")
+
+	if authentication.Login == "" || authentication.Password == "" {
+		log.Fatal("Could not get EPIRANK_LOGIN and EPIRANK_PASSWORD")
+		return nil
+	}
+	return &authentication
 }
