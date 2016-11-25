@@ -1,14 +1,13 @@
 package main
 
 import (
-	//"database/sql"
-	//"fmt"
 	"github.com/Shakarang/Epirank/config"
 	"github.com/Shakarang/Epirank/database"
 	"github.com/Shakarang/Epirank/requests"
 	log "github.com/Sirupsen/logrus"
 	_ "github.com/mattn/go-sqlite3"
 	"os"
+	"time"
 )
 
 func init() {
@@ -24,6 +23,8 @@ func init() {
 }
 
 func main() {
+
+	start := time.Now()
 
 	// Create authentication object based on auth file
 	var auth = config.AuthenticationDataFromEnvironment()
@@ -55,4 +56,6 @@ func main() {
 		// database.GetStudentsFrom(db, &city, &promo)
 	}
 
+	elapsed := time.Since(start)
+	log.Info("Epirank took %s", elapsed)
 }
