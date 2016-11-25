@@ -20,15 +20,66 @@ const tek5 = "tek5"
 // Cities list
 var Cities = []models.City{
 	{
+		Name:       "Bordeaux",
+		ID:         "BDX",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+	{
+		Name:       "Lille",
+		ID:         "LIL",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+	{
+		Name:       "Lyon",
+		ID:         "LYN",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+	{
+		Name:       "Marseille",
+		ID:         "MAR",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+	{
+		Name:       "Montpellier",
+		ID:         "MPL",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+	{
+		Name:       "Nancy",
+		ID:         "NCY",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+	{
+		Name:       "Nantes",
+		ID:         "NAN",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+	{
+		Name:       "Nice",
+		ID:         "NCE",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+	{
+		Name:       "Paris",
+		ID:         "PAR",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+	{
+		Name:       "Rennes",
+		ID:         "REN",
+		Promotions: []string{tek1, tek2, tek3},
+	},
+
+	{
 		Name:       "Strasbourg",
 		ID:         "STG",
-		Promotions: []string{tek3},
+		Promotions: []string{tek1, tek2, tek3},
 	},
-	// {
-	// 	Name:       "Nice",
-	// 	ID:         "NCE",
-	// 	Promotions: []string{tek1, tek2, tek3},
-	// },
+	{
+		Name:       "Toulouse",
+		ID:         "TLS",
+		Promotions: []string{tek1, tek2, tek3},
+	},
 }
 
 // Authentication JSON file
