@@ -3,13 +3,12 @@ package requests
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Shakarang/Epirank/config"
 	"github.com/Shakarang/Epirank/models"
+	"github.com/Shakarang/Epirank/requests/urls"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-
-	"github.com/Shakarang/Epirank/config"
-	"github.com/Shakarang/Epirank/requests/urls"
 
 	log "github.com/Sirupsen/logrus"
 )
@@ -23,8 +22,8 @@ func RequestAllData(token string) ([]models.Student, error) {
 		return nil, err
 	}
 
-	requestStudentsGpas(token, &students)
-
+	//requestStudentsGpas(token, &students)
+	requestsPool(token, &students)
 	return students, nil
 }
 
@@ -123,27 +122,50 @@ func retrievePromotion(token, cityID, promotion string) ([]models.Student, error
 	return students, nil
 }
 
-func requestStudentsGpas(token string, students *[]models.Student) error {
+func requestsPool(token string, students *[]models.Student) {
 
-	log.Info("Hello world")
+	var studentsNumber = len(*students)
 
-	for i, student := range *students {
+	jobs := make(chan *models.Student, studentsNumber)
+	results := make(chan *models.Student, studentsNumber)
+
+	// This starts up 5 workers, initially blocked
+	// because there are no jobs yet.
+	for w := 1; w <= 5; w++ {
+		go requestGpa(w, token, jobs, results)
+	}
+
+	// Here we send 9 `jobs` and then `close` that
+	// channel to indicate that's all the work we have.
+	for j := 0; j < studentsNumber; j++ {
+		jobs <- &(*students)[j]
+	}
+	close(jobs)
+
+	// Finally we collect all the results of the work.
+	for a := 0; a < studentsNumber; a++ {
+		student := <-results
+		log.Info("Student :", student)
+	}
+}
+
+func requestGpa(id int, token string, jobs <-chan *models.Student, results chan<- *models.Student) {
+
+	for student := range jobs {
 
 		// Create GET request with required header
 		request, err := http.NewRequest("GET", urls.EpitechAPIProfile, nil)
 		request.Header.Add("token", token)
 		request.Header.Add("login", student.Login)
 
-		fmt.Printf("Request gpa\n")
-
 		if err != nil {
-			return err
+			log.Error(err)
 		}
 
 		client := &http.Client{}
 		resp, err := client.Do(request)
 		if err != nil {
-			return err
+			log.Error(err)
 		}
 
 		defer resp.Body.Close()
@@ -154,9 +176,6 @@ func requestStudentsGpas(token string, students *[]models.Student) error {
 				"Student": student.Name,
 			}).Error(err)
 		} else {
-
-			fmt.Printf("Body : \n%v\n", string(body))
-
 			var profileData models.ProfileData
 
 			// Unmarshal JSON to put it into profileData object
@@ -168,16 +187,13 @@ func requestStudentsGpas(token string, students *[]models.Student) error {
 
 				for _, gpa := range profileData.Gpa {
 					if gpa.Cycle == "bachelor" {
-						(*students)[i].Bachelor, _ = strconv.ParseFloat(gpa.Value, 64)
+						student.Bachelor, _ = strconv.ParseFloat(gpa.Value, 64)
 					} else if gpa.Cycle == "master" {
-						(*students)[i].Master, _ = strconv.ParseFloat(gpa.Value, 64)
+						student.Master, _ = strconv.ParseFloat(gpa.Value, 64)
 					}
 				}
-				fmt.Println(student)
 			}
 		}
+		results <- student
 	}
-	fmt.Printf("---------\n%v\n----------\n", students)
-	return nil
-
 }
