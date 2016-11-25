@@ -62,7 +62,7 @@ var Cities = []models.City{
 	{
 		Name:       "Paris",
 		ID:         "PAR",
-		Promotions: []string{tek1, tek2, tek3},
+		Promotions: []string{tek1, tek2, tek3, tek4, tek5},
 	},
 	{
 		Name:       "Rennes",
