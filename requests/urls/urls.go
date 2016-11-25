@@ -10,3 +10,6 @@ const EpitechIntranet = "https://intra.epitech.eu"
 // Promo (tek1, ...)
 // Offset
 const UserList = "%v/user/filter/user?format=json&location=FR/%v&year=2016&active=true&promo=%v&offset=%v"
+
+// EpitechAPIProfile Running api to get profile
+const EpitechAPIProfile = "https://epitech.hug33k.fr/intra/user"

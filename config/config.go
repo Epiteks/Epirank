@@ -8,6 +8,9 @@ import (
 	log "github.com/Sirupsen/logrus"
 )
 
+// DatabasePath is database path...
+const DatabasePath = "./students.db"
+
 const tek1 = "tek1"
 const tek2 = "tek2"
 const tek3 = "tek3"
@@ -16,11 +19,16 @@ const tek5 = "tek5"
 
 // Cities list
 var Cities = []models.City{
-	models.City{
+	{
 		Name:       "Strasbourg",
 		ID:         "STG",
-		Promotions: []string{tek1, tek2, tek3},
+		Promotions: []string{tek3},
 	},
+	// {
+	// 	Name:       "Nice",
+	// 	ID:         "NCE",
+	// 	Promotions: []string{tek1, tek2, tek3},
+	// },
 }
 
 // Authentication JSON file

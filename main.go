@@ -1,12 +1,14 @@
 package main
 
 import (
-	"os"
-
+	//"database/sql"
+	//"fmt"
 	"github.com/Shakarang/Epirank/config"
+	"github.com/Shakarang/Epirank/database"
 	"github.com/Shakarang/Epirank/requests"
-
 	log "github.com/Sirupsen/logrus"
+	_ "github.com/mattn/go-sqlite3"
+	"os"
 )
 
 func init() {
@@ -35,5 +37,22 @@ func main() {
 	if err := requests.Authentication(auth); err != nil {
 		os.Exit(-1)
 	}
-	requests.RequestAllData(auth.Token)
+	// Retrieve all students data
+	data, _ := requests.RequestAllData(auth.Token)
+
+	if db, err := database.Init(config.DatabasePath); err != nil {
+		log.Fatal(err)
+	} else {
+		defer db.Close()
+		database.CreateTable(db)
+
+		if err := database.InsertData(db, data); err != nil {
+			log.Error(err)
+		}
+
+		// var city = "STG"
+		// var promo = "tek1"
+		// database.GetStudentsFrom(db, &city, &promo)
+	}
+
 }
