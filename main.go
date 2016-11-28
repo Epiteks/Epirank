@@ -1,14 +1,24 @@
 package main
 
 import (
+	"database/sql"
 	"github.com/Shakarang/Epirank/config"
 	"github.com/Shakarang/Epirank/database"
-	"github.com/Shakarang/Epirank/requests"
+	"github.com/Shakarang/Epirank/ranking"
+	"github.com/Shakarang/Epirank/routes"
 	log "github.com/Sirupsen/logrus"
+	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
 	"os"
-	"time"
 )
+
+// APIMiddleware will add the db connection to the context
+func APIMiddleware(db *sql.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Set("database", db)
+		c.Next()
+	}
+}
 
 func init() {
 
@@ -24,38 +34,28 @@ func init() {
 
 func main() {
 
-	start := time.Now()
-
-	// Create authentication object based on auth file
-	var auth = config.AuthenticationDataFromEnvironment()
-
-	// If getting data in env failed, quit.
-	if auth == nil {
-		os.Exit(-1)
-	}
-
-	// Authenticate current user
-	if err := requests.Authentication(auth); err != nil {
-		os.Exit(-1)
-	}
-	// Retrieve all students data
-	data, _ := requests.RequestAllData(auth.Token)
-
 	if db, err := database.Init(config.DatabasePath); err != nil {
 		log.Fatal(err)
 	} else {
+
 		defer db.Close()
 		database.CreateTable(db)
 
-		if err := database.InsertData(db, data); err != nil {
+		if err := ranking.InitRanking(db); err != nil {
 			log.Error(err)
+			os.Exit(-1)
 		}
 
-		// var city = "STG"
-		// var promo = "tek1"
-		// database.GetStudentsFrom(db, &city, &promo)
-	}
+		// Webservice
+		router := gin.Default()
 
-	elapsed := time.Since(start)
-	log.Info("Epirank took %s", elapsed)
+		router.Use(APIMiddleware(db))
+
+		router.LoadHTMLGlob("templates/*")
+		router.Static("/assets", "./assets")
+
+		router.GET("/", routes.GetStudents)
+
+		router.Run()
+	}
 }

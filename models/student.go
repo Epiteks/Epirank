@@ -4,8 +4,8 @@ package models
 type Student struct {
 	Name      string  `json:"title"`
 	Login     string  `json:"login"`
-	Bachelor  float64 `json:"-"`
-	Master    float64 `json:"-"`
-	City      string  `json:"-"`
-	Promotion string  `json:"-"`
+	Bachelor  float64 `json:"bachelor"`
+	Master    float64 `json:"master"`
+	City      string  `json:"city"`
+	Promotion string  `json:"promotion"`
 }

@@ -1,11 +1,11 @@
-package requests
+package ranking
 
 import (
 	"encoding/json"
 	"fmt"
 	"github.com/Shakarang/Epirank/config"
 	"github.com/Shakarang/Epirank/models"
-	"github.com/Shakarang/Epirank/requests/urls"
+	"github.com/Shakarang/Epirank/ranking/urls"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -22,7 +22,7 @@ func RequestAllData(token string) ([]models.Student, error) {
 		return nil, err
 	}
 
-	//requestStudentsGpas(token, &students)
+	//rankingtudentsGpas(token, &students)
 	requestsPool(token, &students)
 	return students, nil
 }
@@ -40,8 +40,8 @@ func requestStudentsList(token string) ([]models.Student, error) {
 			log.Info("\t", promotion)
 			if data, err := retrievePromotion(token, city.ID, promotion); err != nil {
 				log.WithFields(log.Fields{
-					"City":      city.ID,
-					"Promotion": promotion,
+					"City":       city.ID,
+					"Promotionn": promotion,
 				}).Warning(err)
 			} else {
 				// Concatenate new data with the current one

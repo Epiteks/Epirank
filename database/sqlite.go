@@ -2,20 +2,20 @@ package database
 
 import (
 	"database/sql"
-	"fmt"
+	//"fmt"
 	"github.com/Shakarang/Epirank/models"
 	log "github.com/Sirupsen/logrus"
-	_ "github.com/mattn/go-sqlite3" // Hello
+	_ "github.com/mattn/go-sqlite3" // SQLITE
 )
 
 // Init database
 func Init(path string) (*sql.DB, error) {
 
-	if db, err := sql.Open("sqlite3", path); err != nil {
+	db, err := sql.Open("sqlite3", path)
+	if err != nil {
 		return nil, err
-	} else {
-		return db, nil
 	}
+	return db, nil
 }
 
 // CreateTable creates student table if not existing in current database
@@ -57,18 +57,41 @@ func InsertData(db *sql.DB, students []models.Student) error {
 	return nil
 }
 
-// GetStudentsFrom retrieve students by their GPA and city
+// GetStudentsFrom retrieve students by their Promotion and City
+// Orders them by their Bachelor's gpa if they are in Tek[1,2,3,4]
+// and the Master one if they are in Tek5
 func GetStudentsFrom(db *sql.DB, city, promotion *string) []models.Student {
 
 	var students []models.Student
 
-	var sqlQuery = "select Name, Login, Bachelor, Master from students WHERE Promotion = ? "
-
-	if promotion != nil {
-		sqlQuery += "AND City = ? "
+	if promotion == nil || len(*promotion) == 0 {
+		*promotion = "tek1"
 	}
-	log.Info(sqlQuery)
-	rows, err := db.Query(sqlQuery, promotion, city)
+
+	var sqlQuery = "select Name, Login, Bachelor, Master, City from students WHERE Promotion = ? "
+
+	var rows *sql.Rows
+	var err error
+
+	var orderByQuery = "ORDER BY "
+
+	if *promotion == "tek5" {
+		orderByQuery += "Master"
+	} else {
+		orderByQuery += "Bachelor"
+	}
+
+	orderByQuery += " DESC"
+
+	if city != nil && len(*city) > 0 {
+		sqlQuery += "AND City = ? "
+		sqlQuery += orderByQuery
+		rows, err = db.Query(sqlQuery, promotion, city)
+	} else {
+		sqlQuery += orderByQuery
+		rows, err = db.Query(sqlQuery, promotion)
+	}
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -76,16 +99,13 @@ func GetStudentsFrom(db *sql.DB, city, promotion *string) []models.Student {
 	for rows.Next() {
 
 		var student = models.Student{
-			City:      *city,
 			Promotion: *promotion,
 		}
 
-		err = rows.Scan(&student.Name, &student.Login, &student.Bachelor, &student.Master)
+		err = rows.Scan(&student.Name, &student.Login, &student.Bachelor, &student.Master, &student.City)
 		if err != nil {
 			log.Fatal(err)
 		}
-
-		fmt.Println(student)
 		students = append(students, student)
 	}
 	err = rows.Err()

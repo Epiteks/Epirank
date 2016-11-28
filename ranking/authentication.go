@@ -1,4 +1,4 @@
-package requests
+package ranking
 
 import (
 	"bytes"
@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/Shakarang/Epirank/config"
-	"github.com/Shakarang/Epirank/requests/urls"
+	"github.com/Shakarang/Epirank/ranking/urls"
 )
 
 // Authentication connects current user to retrieve its token

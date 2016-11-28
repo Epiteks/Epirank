@@ -1,0 +1,41 @@
+{{ template "header.html" . }}
+
+		<nav id="sc1">
+	    <ul>
+	      <li><a href="#" title="Home">Home</a></li>
+	      <li><a href="#" title="Blog">Blog</a></li>
+	      <li><a href="#" title="Work">Work</a></li>
+	      <li><a href="#" title="Resources">Resources</a></li>
+	      <li><a href="#" title="Meta">Meta</a></li><li><a href="#" title="Work">Work</a></li>
+	      <li><a href="#" title="Resources">Resources</a></li>
+	      <li><a href="#" title="Meta">Meta</a></li><li><a href="#" title="Work">Work</a></li>
+	      <li><a href="#" title="Resources">Resources</a></li>
+	      <li><a href="#" title="Meta">Meta</a></li>
+	    </ul>
+	</nav>
+
+	<!-- <ul>
+		{{ range $key, $value := .Cities }}
+		  <li><a href="?city={{ $value.ID }}">{{ $value.Name }}</a></li>
+		{{ end }}
+	</ul>
+ -->
+	<div id="main-container">
+	
+			<div id="promotions-container">
+				{{ range $key, $value := .Promotions }}
+				  <a style="margin: 20" href="?city={{ $.CurrentCity }}&promotion={{ $value }}">{{ $value }}</a>
+				{{ end }}
+			</div>
+		</div>
+
+		<div class="students-list">
+
+			{{ range $key, $value := .Students }}
+		   		<p><strong>{{ $key }}</strong>: {{ $value.Name }} {{ $value.Bachelor }}</p>
+			{{ end }}
+
+		</div>
+	</div>
+
+{{ template "footer.html" . }}

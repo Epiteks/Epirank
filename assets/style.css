@@ -1,0 +1,127 @@
+body {
+	font-family: Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	margin: 0;
+	background-color: #2B3542;
+}
+
+div#epirank-title {
+	margin: auto;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+    width: auto;
+    background-color: green;
+}
+
+.class {
+	display: flex;
+	background-color: red
+	flex-direction: column;
+}
+
+nav {
+  & ul {
+    display: flex;
+    width: 100%;
+    & li {
+      flex: 1 1 100%;
+    }
+  }
+}
+
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    text-align: center;
+}
+
+li {
+    display:inline-block
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+div#main-container {
+	/*display:inline-block*/
+	margin: 70px auto auto auto;
+    width: 80%;
+    background-color: orange
+}
+
+div#selection-container {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	padding: 10px
+}
+
+div#promotions-container {
+	/*margin: 50;*/
+	text-align: center;
+}
+
+div a:link, div a:visited, div a:active{
+    color: red;
+    background-color: blue;
+    padding: 10px 20px;
+ 
+    text-decoration: none;
+    border-radius: 2px;
+
+}
+
+div a:hover {
+    color: yellow;
+    background-color: orange;
+}
+
+.students-list {
+	background: #353F4B;
+	color: #fff;
+	align-items: center;
+	justify-content: center;
+}
+
+/*
+a:link, a:visited, a:active{
+    color: red;
+    background-color: blue;
+    padding: 10px 20px;
+    margin-bottom: 20;
+    text-decoration: none;
+    border-radius: 2px;
+
+}
+
+
+
+a:hover {
+    color: yellow;
+    background-color: orange;
+}
+
+
+a:active {
+    color: blue;
+}*/
