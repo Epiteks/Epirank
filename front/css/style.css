@@ -1,0 +1,75 @@
+body {
+	font-family: Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	margin: 0;
+}
+
+.navbar-inverse .navbar-brand {
+    color: white;
+}
+
+.navbar-inverse {
+    background-color: #353F4B;
+    border-radius: 0;
+    border-width: 0;
+}
+
+.main-container {
+    align-items: center;
+    justify-content: center;
+    width: 700px;
+    height: auto;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+}
+
+.students-table-title {
+    text-align: center;
+    font-size: 1.4em;
+}
+
+.students-list {
+
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+    font-size: 0.9em;
+}
+
+.table>thead:first-child>tr:first-child>th {
+    border-top: 0;
+}
+
+.message-students-update {
+    
+}
+
+.madeby {
+    text-decoration: none;
+}
+
+.madeby:hover {
+    color: #353F4B;
+    text-decoration: none;
+}
+
+.copyright {
+    text-align: center;
+    bottom: 20px;
+}
+
+.icon {
+    color: #ec407a;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}

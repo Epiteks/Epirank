@@ -64,10 +64,6 @@ func GetStudentsFrom(db *sql.DB, city, promotion *string) []models.Student {
 
 	var students []models.Student
 
-	if promotion == nil || len(*promotion) == 0 {
-		*promotion = "tek1"
-	}
-
 	var sqlQuery = "select Name, Login, Bachelor, Master, City from students WHERE Promotion = ? "
 
 	var rows *sql.Rows
@@ -96,12 +92,16 @@ func GetStudentsFrom(db *sql.DB, city, promotion *string) []models.Student {
 		log.Fatal(err)
 	}
 	defer rows.Close()
+
+	var studentPosition = 1
+
 	for rows.Next() {
 
 		var student = models.Student{
 			Promotion: *promotion,
+			Position:  studentPosition,
 		}
-
+		studentPosition++
 		err = rows.Scan(&student.Name, &student.Login, &student.Bachelor, &student.Master, &student.City)
 		if err != nil {
 			log.Fatal(err)

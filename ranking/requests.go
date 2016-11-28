@@ -31,7 +31,11 @@ func requestStudentsList(token string) ([]models.Student, error) {
 	var students []models.Student
 
 	// Iterate through different cities
-	for _, city := range config.Cities {
+	for index, city := range config.Cities {
+
+		if index == 0 {
+			continue
+		}
 
 		log.Info("City : ", city.Name)
 
@@ -40,8 +44,8 @@ func requestStudentsList(token string) ([]models.Student, error) {
 			log.Info("\t", promotion)
 			if data, err := retrievePromotion(token, city.ID, promotion); err != nil {
 				log.WithFields(log.Fields{
-					"City":       city.ID,
-					"Promotionn": promotion,
+					"City":      city.ID,
+					"Promotion": promotion,
 				}).Warning(err)
 			} else {
 				// Concatenate new data with the current one

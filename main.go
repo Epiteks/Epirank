@@ -54,8 +54,10 @@ func main() {
 		gopath := os.Getenv("GOPATH")
 		gopath += "/src/github.com/Shakarang/Epirank"
 
-		router.LoadHTMLGlob(gopath + "/templates/*")
-		router.Static("/assets", gopath+"/assets")
+		router.LoadHTMLGlob(gopath + "/front/html/*")
+		router.Static("/css", gopath+"/front/css")
+		router.Static("/js", gopath+"/front/js")
+		router.StaticFile("/favicon.ico", gopath+"/front/icons/favicon-96x96.png")
 
 		router.GET("/", routes.GetStudents)
 

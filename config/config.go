@@ -20,6 +20,11 @@ const tek5 = "tek5"
 // Cities list
 var Cities = []models.City{
 	{
+		Name:       "All",
+		ID:         "",
+		Promotions: []string{tek1, tek2, tek3, tek4, tek5},
+	},
+	{
 		Name:       "Bordeaux",
 		ID:         "BDX",
 		Promotions: []string{tek1, tek2, tek3},

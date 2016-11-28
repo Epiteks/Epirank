@@ -8,13 +8,16 @@ import (
 	"github.com/Shakarang/Epirank/ranking"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 )
 
 type htmlModel struct {
-	Students    []models.Student
-	CurrentCity string
-	Cities      []models.City
-	Promotions  []string
+	Students              []models.Student
+	CurrentCity           string
+	Cities                []models.City
+	GpaType               string
+	CurrentData           string
+	StudentsUpdateMessage string
 }
 
 // GetStudents returns students from :
@@ -26,15 +29,16 @@ func GetStudents(c *gin.Context) {
 	promo := c.Query("promotion")
 	cityID := c.Query("city")
 	db, _ := c.Get("database")
-	students := database.GetStudentsFrom(db.(*sql.DB), &cityID, &promo)
 
-	var promotions []string
-
-	for _, city := range config.Cities {
-		if city.ID == cityID {
-			promotions = city.Promotions
-		}
+	if len(promo) == 0 {
+		promo = "tek1"
 	}
+
+	var studentsUpdateMessage = "The ranking is updated every day around 3am. The last one was on : "
+
+	studentsUpdateMessage += ranking.LastRankUpdate.Format("2 January 2006 15:04")
+
+	students := database.GetStudentsFrom(db.(*sql.DB), &cityID, &promo)
 
 	if format == "json" {
 		if len(students) == 0 {
@@ -47,12 +51,31 @@ func GetStudents(c *gin.Context) {
 		}
 	} else {
 
-		model := htmlModel{
-			Students:    students,
-			CurrentCity: cityID,
-			Cities:      config.Cities,
-			Promotions:  promotions,
+		var gpaType = "Bachelor"
+
+		if promo == "tek5" {
+			gpaType = "Master"
 		}
-		c.HTML(http.StatusOK, "body.html", &model)
+
+		var data string
+
+		for _, city := range config.Cities {
+			if city.ID == cityID {
+				data = city.Name
+				break
+			}
+		}
+
+		data += " "
+		data += strings.ToUpper(promo)
+
+		model := htmlModel{
+			Students:              students,
+			Cities:                config.Cities,
+			GpaType:               gpaType,
+			CurrentData:           data,
+			StudentsUpdateMessage: studentsUpdateMessage,
+		}
+		c.HTML(http.StatusOK, "body.html", model)
 	}
 }

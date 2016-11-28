@@ -19,7 +19,7 @@ var (
 	rankingTicker ticker.Ticker
 
 	// LastRankUpdate is when the rank was updated
-	LastRankUpdate int64
+	LastRankUpdate time.Time
 )
 
 func rankingTick() {
@@ -27,9 +27,9 @@ func rankingTick() {
 	// First ranking download
 	if err := UpdateRanking(); err != nil {
 		log.Error(err)
+	} else {
+		LastRankUpdate = time.Now()
 	}
-
-	LastRankUpdate = time.Now().Unix()
 
 	for {
 		<-rankingTicker.Timer.C
@@ -90,6 +90,6 @@ func UpdateRanking() error {
 		log.Error(err)
 	}
 
-	LastRankUpdate = time.Now().Unix()
+	LastRankUpdate = time.Now()
 	return nil
 }
