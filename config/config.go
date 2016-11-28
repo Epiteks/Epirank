@@ -131,5 +131,9 @@ func AuthenticationDataFromEnvironment() *Authentication {
 		log.Fatal("Could not get EPIRANK_LOGIN and EPIRANK_PASSWORD")
 		return nil
 	}
+
+	os.Setenv("EPIRANK_LOGIN", "")
+	os.Setenv("EPIRANK_PASSWORD", "")
+
 	return &authentication
 }

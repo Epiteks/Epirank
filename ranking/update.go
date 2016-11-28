@@ -25,11 +25,11 @@ var (
 func rankingTick() {
 
 	// First ranking download
-	if err := UpdateRanking(); err != nil {
-		log.Error(err)
-	} else {
-		LastRankUpdate = time.Now()
-	}
+	// if err := UpdateRanking(); err != nil {
+	// 	log.Error(err)
+	// } else {
+	// 	LastRankUpdate = time.Now()
+	// }
 
 	for {
 		<-rankingTicker.Timer.C
