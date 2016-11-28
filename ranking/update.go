@@ -24,10 +24,10 @@ var (
 
 func rankingTick() {
 
-	// // First ranking download
-	// if err := UpdateRanking(); err != nil {
-	// 	log.Error(err)
-	// }
+	// First ranking download
+	if err := UpdateRanking(); err != nil {
+		log.Error(err)
+	}
 
 	LastRankUpdate = time.Now().Unix()
 

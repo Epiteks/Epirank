@@ -7,8 +7,10 @@ The first time you will start the server, it will update the datase and then wil
 
 ## Project
 
-The webservice runs using [Gin](https://github.com/gin-gonic/gin) framework and listen on the port `8080`.
-The database used to store the data is a SQLite one.
+The webservice runs using :
+- [Gin](https://github.com/gin-gonic/gin) framework and listen on the port `8080`.
+- [Go-sqlite3](https://github.com/mattn/go-sqlite3) as a SQLite driver.
+- [Logrus](https://github.com/Sirupsen/logrus) for logging.
 
 ## Route
 
@@ -26,8 +28,8 @@ There is only one route :
 
 If you are using Fish shell
 ```
-set -g EPIRANK_LOGIN ""
-set -g EPIRANK_PASSWORD ""
+set -gx EPIRANK_LOGIN ""
+set -gx EPIRANK_PASSWORD ""
 ```
 
 Then :

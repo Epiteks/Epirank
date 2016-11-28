@@ -51,8 +51,11 @@ func main() {
 
 		router.Use(APIMiddleware(db))
 
-		router.LoadHTMLGlob("templates/*")
-		router.Static("/assets", "./assets")
+		gopath := os.Getenv("GOPATH")
+		gopath += "/src/github.com/Shakarang/Epirank"
+
+		router.LoadHTMLGlob(gopath + "/templates/*")
+		router.Static("/assets", gopath+"/assets")
 
 		router.GET("/", routes.GetStudents)
 
