@@ -2,10 +2,10 @@ package main
 
 import (
 	"database/sql"
-	"github.com/Shakarang/Epirank/config"
-	"github.com/Shakarang/Epirank/database"
-	"github.com/Shakarang/Epirank/ranking"
-	"github.com/Shakarang/Epirank/routes"
+	"github.com/Epiteks/Epirank/config"
+	"github.com/Epiteks/Epirank/database"
+	"github.com/Epiteks/Epirank/ranking"
+	"github.com/Epiteks/Epirank/routes"
 	log "github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
@@ -52,7 +52,7 @@ func main() {
 		router.Use(APIMiddleware(db))
 
 		gopath := os.Getenv("GOPATH")
-		gopath += "/src/github.com/Shakarang/Epirank"
+		gopath += "/src/github.com/Epiteks/Epirank"
 
 		router.LoadHTMLGlob(gopath + "/front/html/*")
 		router.Static("/css", gopath+"/front/css")

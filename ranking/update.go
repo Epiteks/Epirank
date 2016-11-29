@@ -3,9 +3,9 @@ package ranking
 import (
 	"database/sql"
 	"fmt"
-	"github.com/Shakarang/Epirank/config"
-	"github.com/Shakarang/Epirank/database"
-	"github.com/Shakarang/Epirank/ticker"
+	"github.com/Epiteks/Epirank/config"
+	"github.com/Epiteks/Epirank/database"
+	"github.com/Epiteks/Epirank/ticker"
 	log "github.com/Sirupsen/logrus"
 	"time"
 )

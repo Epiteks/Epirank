@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/Shakarang/Epirank/models"
+	"github.com/Epiteks/Epirank/models"
 	log "github.com/Sirupsen/logrus"
 )
 

@@ -3,9 +3,9 @@ package ranking
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Shakarang/Epirank/config"
-	"github.com/Shakarang/Epirank/models"
-	"github.com/Shakarang/Epirank/ranking/urls"
+	"github.com/Epiteks/Epirank/config"
+	"github.com/Epiteks/Epirank/models"
+	"github.com/Epiteks/Epirank/ranking/urls"
 	"io/ioutil"
 	"net/http"
 	"strconv"

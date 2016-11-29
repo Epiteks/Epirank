@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 	//"fmt"
-	"github.com/Shakarang/Epirank/models"
+	"github.com/Epiteks/Epirank/models"
 	log "github.com/Sirupsen/logrus"
 	_ "github.com/mattn/go-sqlite3" // SQLITE
 )

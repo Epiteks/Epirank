@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/Shakarang/Epirank/config"
-	"github.com/Shakarang/Epirank/ranking/urls"
+	"github.com/Epiteks/Epirank/config"
+	"github.com/Epiteks/Epirank/ranking/urls"
 )
 
 // Authentication connects current user to retrieve its token

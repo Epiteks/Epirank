@@ -2,10 +2,10 @@ package routes
 
 import (
 	"database/sql"
-	"github.com/Shakarang/Epirank/config"
-	"github.com/Shakarang/Epirank/database"
-	"github.com/Shakarang/Epirank/models"
-	"github.com/Shakarang/Epirank/ranking"
+	"github.com/Epiteks/Epirank/config"
+	"github.com/Epiteks/Epirank/database"
+	"github.com/Epiteks/Epirank/models"
+	"github.com/Epiteks/Epirank/ranking"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
