@@ -93,10 +93,12 @@ type Authentication struct {
 	Token    string `json:"-"`
 }
 
-// LoadAuthenticationData loads the authentication file
-func LoadAuthenticationData() (*Authentication, error) {
+var authenticationFilePath = "/tmp/authentication.json"
 
-	configFile, err := os.Open("authentication.json")
+// AuthenticationDataFromFile loads the authentication file and delete it
+func AuthenticationDataFromFile() (*Authentication, error) {
+
+	configFile, err := os.Open(authenticationFilePath)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"error": err,
@@ -114,6 +116,13 @@ func LoadAuthenticationData() (*Authentication, error) {
 			"error": err,
 		}).Error("Error parsing authentication file")
 		return nil, err
+	}
+
+	if os.Getenv("EPIRANK_DELETE_CREDENTIALS") == "true" {
+		log.Info("Remove auth file")
+		if err := os.Remove(authenticationFilePath); err != nil {
+			log.Error(err)
+		}
 	}
 
 	return &authentication, nil

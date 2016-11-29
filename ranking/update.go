@@ -45,7 +45,12 @@ func rankingTick() {
 func InitRanking(db *sql.DB) error {
 
 	// Create authentication object based on auth file
-	auth = config.AuthenticationDataFromEnvironment()
+	var err error
+	auth, err = config.AuthenticationDataFromFile()
+
+	if err != nil {
+		return err
+	}
 
 	// If getting data in env failed, quit.
 	if auth == nil {

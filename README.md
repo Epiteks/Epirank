@@ -12,7 +12,7 @@ The webservice runs using :
 - [Go-sqlite3](https://github.com/mattn/go-sqlite3) as a SQLite driver.
 - [Logrus](https://github.com/Sirupsen/logrus) for logging.
 
-## Route
+## Endpoint
 
 There is only one route :
 
@@ -24,15 +24,25 @@ There is only one route :
 |promotion|The promotion we want (tek1, tek2, ...)|✅|
 |format|We can ask JSON. If not present, returns the HTML ranking page|✅|
 
+## Authentication file
+
+```json
+{
+	"login": "email",
+	"password": "password"
+}
+```
+
+If you want to delete the configuration file after the launch, set the environment variable :
+
+If you are using Fish shell:
+```
+set -gx EPIRANK_DELETE_CREDENTIALS true
+```
+
+
 ## Run from sources
 
-If you are using Fish shell
-```
-set -gx EPIRANK_LOGIN ""
-set -gx EPIRANK_PASSWORD ""
-```
-
-Then :
 ```
 go build
 ./Epirank
@@ -50,18 +60,16 @@ docker build -t epirank .
 
 TODO
 
-### Run from the sources
+### Docker run
 
-- The database which is storing all students data is in `/tmp`
-- EPIRANK_LOGIN is your EPITECH's email
-- EPIRANK_PASSWORD is your EPITECH's intranet password
+- The database which is storing all students data is in `/tmp`. The authentication file too.
+- EPIRANK_DELETE_CREDENTIALS : if set at true, deletes the authentication file
 - GIN_MODE [debug/release]
 
 ```
-docker run --name epirank
+docker run -d --name epirank
 	-v "~/epirank_data":/tmp
-	-e EPIRANK_LOGIN=INTRA_EMAIL
-	-e EPIRANK_PASSWORD=INTRA_PASSWORD
+	-e EPIRANK_DELETE_CREDENTIALS=true
 	-e GIN_MODE=release
-	epirank -t
+	epirank
 ```
