@@ -1,15 +1,23 @@
-FROM golang:alpine
+FROM golang:1.8-alpine
 
-ADD . /go/src/github.com/Epiteks/Epirank
+WORKDIR /go/src/github.com/Epiteks/Epirank
 
-RUN apk add --update alpine-sdk
+COPY . .
 
-RUN go get -u github.com/Sirupsen/logrus
-RUN go get -u github.com/mattn/go-sqlite3
-RUN go get -u github.com/gin-gonic/gin
+RUN apk add --no-cache git \
+    && go get -d -v . \
+    && apk del git
 
-RUN go install github.com/Epiteks/Epirank
+# RUN apk add --update alpine-sdk
 
-ENTRYPOINT /go/bin/Epirank
+RUN apk add --no-cache gcc libc-dev \
+    && go build . \
+    && apk del gcc libc-dev
+
+FROM alpine:3.6 
+
+COPY --from=0 /go/src/github.com/Epiteks/Epirank/Epirank .
+
+ENTRYPOINT ["/Epirank"]
 
 EXPOSE 8080
