@@ -3,12 +3,13 @@ package ranking
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Epiteks/Epirank/config"
-	"github.com/Epiteks/Epirank/models"
-	"github.com/Epiteks/Epirank/ranking/urls"
 	"io/ioutil"
 	"net/http"
 	"strconv"
+
+	"github.com/Epiteks/Epirank/config"
+	"github.com/Epiteks/Epirank/models"
+	"github.com/Epiteks/Epirank/ranking/urls"
 
 	log "github.com/Sirupsen/logrus"
 )
@@ -164,12 +165,14 @@ func requestGpa(id int, token string, jobs <-chan *models.Student, results chan<
 
 		if err != nil {
 			log.Error(err)
+			return
 		}
 
 		client := &http.Client{}
 		resp, err := client.Do(request)
 		if err != nil {
 			log.Error(err)
+			return
 		}
 
 		defer resp.Body.Close()
