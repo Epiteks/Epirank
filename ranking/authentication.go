@@ -1,11 +1,10 @@
 package ranking
 
 import (
-	"bytes"
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
+	"strings"
 
 	"github.com/Epiteks/Epirank/config"
 	"github.com/Epiteks/Epirank/ranking/urls"
@@ -20,13 +19,11 @@ func Authentication(authentication *config.Authentication) error {
 	authenticationData.Add("password", authentication.Password)
 
 	// Create POST request with required header and data
-	request, err := http.NewRequest("POST", urls.EpitechIntranet+"/?format=json", bytes.NewBufferString(authenticationData.Encode()))
-	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	request.Header.Add("Content-Length", strconv.Itoa(len(authenticationData.Encode())))
-
+	request, err := http.NewRequest("POST", urls.EpitechIntranet+"/?format=json", strings.NewReader(authenticationData.Encode()))
 	if err != nil {
 		return err
 	}
+	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	client := &http.Client{}
 	resp, err := client.Do(request)
@@ -37,7 +34,7 @@ func Authentication(authentication *config.Authentication) error {
 	defer resp.Body.Close()
 
 	for _, element := range resp.Cookies() {
-		if element.Name == "PHPSESSID" {
+		if element.Name == "user" {
 			authentication.Token = element.Value
 		}
 	}
